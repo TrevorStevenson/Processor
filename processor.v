@@ -135,7 +135,7 @@ module processor(
 	 wire neq, lt, ovf, neq2, lt2, ovf2;
 	 
 	 alu pc_plus_one_alu(pc, 32'b1, 5'b0, 5'b0, pc_plus_one, neq, lt, ovf);
-	 csa32 pc_plus_one_plus_imm_adder(execute_pc, sx_immediate, 1'b1, pc_plus_one_plus_imm, neq2, lt2);
+	 csa32 pc_plus_one_plus_imm_adder(execute_pc, sx_immediate, 1'b0, pc_plus_one_plus_imm, neq2, lt2);
 	 
 	 wire should_branch;
 	 assign branch = should_branch ? pc_plus_one_plus_imm : pc_plus_one;

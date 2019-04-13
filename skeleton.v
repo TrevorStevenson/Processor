@@ -33,7 +33,7 @@ module skeleton(clock, reset, regOne,
     imem my_imem(
         .address    (address_imem),           // address of data
 		  .clken(1'b1),
-        .clock      (clock),                  // you may need to invert the clock
+        .clock      (~clock),                  // you may need to invert the clock
         .q          (q_imem)                   // the raw instruction
     );
 
