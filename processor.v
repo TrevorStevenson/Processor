@@ -117,7 +117,7 @@ module processor(
 	 wire didBranch;
 	 assign didBranch = jumpOrJalOrBex | should_branch;
 	 
-	 register program_counter(clock, ~stall, reset, next_pc, pc);
+	 register program_counter(clock, 1'b1, reset, next_pc, pc);
 	 
 	 assign address_imem = pc[11:0];
 	 
@@ -151,7 +151,7 @@ module processor(
 	 
 	 // F/D Latch 
 	 wire [31:0] decode_pc, decode_insn;
-	 fetch_decode fd(~clock, ~stall, (didBranch | reset), pc, q_imem, decode_pc, decode_insn);
+	 fetch_decode fd(~clock, 1'b1, (didBranch | reset), pc, q_imem, decode_pc, decode_insn);
 	 
 	 /** Decode **/
 	 
@@ -174,17 +174,11 @@ module processor(
 	 assign ctrl_readRegA = bexd ? 5'b11110 : x1;
 	 assign ctrl_readRegB = bexd ? 5'b00000 : x2;
 	 
-	 // Stall
-	 
-	 wire stall;
-	 stall_control stallCtrl(execute_insn, decode_insn, stall);
-	 
 	 // D/X Latch
 	 wire [31:0] execute_dataA, execute_dataB, execute_insn, actual_insn;
 	 output [31:0] execute_pc;
 	 
-	 assign actual_insn = stall ? 32'b0 : decode_insn;
-	 decode_execute dx(~clock, (didBranch | reset), data_readRegA, data_readRegB, actual_insn, decode_pc, execute_dataA, execute_dataB, execute_insn, execute_pc);
+	 decode_execute dx(~clock, (didBranch | reset), data_readRegA, data_readRegB, decode_insn, decode_pc, execute_dataA, execute_dataB, execute_insn, execute_pc);
 	 
 	 // Execute
 	 
