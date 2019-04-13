@@ -10,16 +10,16 @@
  */
 
 module skeleton(clock, reset, regOne, 
-						pc, q_imem, weT, 
+						pc, q_imem, fdl, dxl, xml, mwl, weT, 
 						rdT, rdV, target_pc, regA, regB, next_pc,
-						branch, execute_pc, ilt, aluResult, aluA, aluB);
+						branch, execute_pc, ilt, aluResult);
 						
     input clock, reset;
 	 
-	 output [31:0] regOne, pc, q_imem, rdV, target_pc, regA, regB, next_pc, branch;
+	 output [31:0] regOne, pc, q_imem, fdl, dxl, xml, mwl, rdV, target_pc, regA, regB, next_pc, branch;
 	 output [4:0] rdT;
 	 output weT, ilt;
-	 output [31:0] execute_pc, aluResult, aluA, aluB;
+	 output [31:0] execute_pc, aluResult;
 	 
 	 
 	 assign rdT = ctrl_writeReg;
@@ -100,15 +100,17 @@ module skeleton(clock, reset, regOne,
         data_readRegA,                  // I: Data from port A of regfile
         data_readRegB,                   // I: Data from port B of regfile
 		  pc,
+		  fdl,
+		  dxl,
+		  xml,
+		  mwl,
 		  weT,
 		  target_pc,
 		  next_pc,
 		  branch,
 		  execute_pc,
 		  ilt,
-		  aluResult,
-		  aluA,
-		  aluB
+		  aluResult
     );
 
 endmodule
